@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado da Importação</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        h1, h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .metadata { background-color: #e7f3fe; padding: 1em; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Importação Concluída com Sucesso!</h1>
+
+    <div class="metadata">
+        <h2>Prova: {{ prova.nome }}</h2>
+        <p><strong>Ano:</strong> {{ prova.ano }}</p>
+        <p><strong>Vestibular:</strong> {{ prova.vestibular }}</p>
+    </div>
+
+    <h2>Questões Extraídas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Disciplina</th>
+                <th>Enunciado</th>
+                <th>Resposta</th>
+                <th>Dificuldade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for questao in prova.questoes.all %}
+            <tr>
+                <td>{{ questao.numero }}</td>
+                <td>{{ questao.disciplina|default:"N/A" }}</td>
+                <td>{{ questao.enunciado|linebreaksbr }}</td>
+                <td>{{ questao.resposta|default:"N/A" }}</td>
+                <td>{{ questao.dificuldade|default:"N/A" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'importar_prova' %}">Importar outra prova</a>
+</body>
+</html>

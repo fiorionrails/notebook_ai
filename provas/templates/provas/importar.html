@@ -1,5 +1,8 @@
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="text" name="pdf_url" placeholder="Cole a URL do PDF aqui">
-    <button type="submit">Importar</button>
+    <input type="text" name="nome" placeholder="Nome da Prova" required>
+    <input type="number" name="ano" placeholder="Ano" required>
+    <input type="text" name="vestibular" placeholder="Vestibular" required>
+    <input type="file" name="pdf_file" accept="application/pdf" required>
+    <button type="submit">Importar e Analisar</button>
 </form>
