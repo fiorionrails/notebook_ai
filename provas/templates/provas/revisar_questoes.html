@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Revisar Questões da Prova: {{ prova.nome }}</title>
+</head>
+<body>
+    <h1>Revisar Questões da Prova: {{ prova.nome }}</h1>
+    <p>Ano: {{ prova.ano }}</p>
+    <p>Vestibular: {{ prova.vestibular }}</p>
+    <p>Corrigida: {{ prova.corrigida|yesno:"Sim,Não" }}</p>
+
+    {% if not prova.corrigida %}
+        <form action="{% url 'marcar_prova_corrigida' prova.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Marcar como Corrigida</button>
+        </form>
+    {% endif %}
+
+    <hr>
+
+    {% for questao in questoes %}
+        <div>
+            <h2>Questão {{ questao.numero }}</h2>
+            <form action="{% url 'atualizar_questao' questao.id %}" method="post">
+                {% csrf_token %}
+                <textarea name="enunciado" rows="10" cols="80">{{ questao.enunciado }}</textarea><br>
+                <label for="disciplina">Disciplina:</label>
+                <input type="text" name="disciplina" value="{{ questao.disciplina|default:'' }}"><br>
+                <label for="dificuldade">Dificuldade:</label>
+                <input type="text" name="dificuldade" value="{{ questao.dificuldade|default:'' }}"><br>
+                <label for="resposta">Resposta:</label>
+                <textarea name="resposta" rows="5" cols="80">{{ questao.resposta|default:'' }}</textarea><br>
+                <button type="submit">Salvar Alterações</button>
+            </form>
+            <hr>
+        </div>
+    {% endfor %}
+</body>
+</html>
